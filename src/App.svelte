@@ -1,9 +1,9 @@
 <script>
-	import Fruits from './Fruits.svelte'
-	let fruits = ['Apple', 'Bannana', 'Cherry', 'Orange', "Mango"]
+	import Parent from './Parent.svelte'
+
+	let name = 'jinwook'
+
 </script>
 
-<Fruits {fruits} />
-<Fruits {fruits}  reverse />
-<Fruits {fruits}  slice='-2' />
-<Fruits {fruits}  slice='0, 3' />
+<h1>{name} App</h1>
+<Parent {name}/>
