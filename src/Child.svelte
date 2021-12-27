@@ -1,5 +1,5 @@
 <script>
-    export let name
+  import { storeName } from './store';
 </script>
 
-<div>Child {name}</div>
+<div>Child {$storeName}</div>
