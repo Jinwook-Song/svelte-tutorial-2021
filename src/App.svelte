@@ -18,7 +18,7 @@
 </script>
 
 <!-- Markup -->
-<h1>Todos</h1>
+<h1 class="bg-pink-300">Todos</h1>
 
 {#each todos as todo}
   <div class:done={todo.done}>
