@@ -1,13 +1,41 @@
+<!-- Scrupt -->
 <script>
-  import Parent from './Parent.svelte';
-  import { storeName } from './store';
+  let todos = [
+    { done: false, text: 'finish Svelte tutorial' },
+    { done: false, text: 'build an app' },
+    { done: false, text: 'world domination' },
+  ];
 
-  let name = 'jinwook';
-  $storeName = name;
+  function add() {
+    todos = todos.concat({ done: false, text: '' });
+  }
 
-  // Auto subscription
-  console.log($storeName);
+  function clear() {
+    todos = todos.filter((todo) => !todo.done);
+  }
+
+  $: remaining = todos.filter((todo) => !todo.done).length;
 </script>
 
-<h1>{name} App</h1>
-<Parent />
+<!-- Markup -->
+<h1>Todos</h1>
+
+{#each todos as todo}
+  <div class:done={todo.done}>
+    <input type="checkbox" bind:checked={todo.done} />
+    <input placeholder="What needs to be done?" bind:value={todo.text} />
+  </div>
+{/each}
+
+<p>{remaining} remaining</p>
+
+<button on:click={add}> Add new </button>
+
+<button on:click={clear}> Clear completed </button>
+
+<!-- Style -->
+<style>
+  .done {
+    opacity: 0.4;
+  }
+</style>
