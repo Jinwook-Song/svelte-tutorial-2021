@@ -27,15 +27,27 @@
   </div>
 {/each}
 
-<p>{remaining} remaining</p>
+<p>{remaining ? `${remaining} remaining` : 'done'}</p>
 
 <button on:click={add}> Add new </button>
 
 <button on:click={clear}> Clear completed </button>
 
 <!-- Style -->
-<style>
+<style lang="scss">
   .done {
     opacity: 0.4;
+    input {
+      text-decoration-line: line-through;
+    }
+  }
+  input:last-child {
+    border-radius: 5px;
+  }
+  button {
+    border-color: transparent;
+    &:hover {
+      background-color: antiquewhite;
+    }
   }
 </style>
