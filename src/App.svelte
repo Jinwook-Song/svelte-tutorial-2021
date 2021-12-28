@@ -1,6 +1,8 @@
 <!-- Scrupt -->
 <script lang="ts">
-  let todos = [
+  import type { ITodo } from './types/ITodo';
+
+  let todos: ITodo[] = [
     { done: false, text: 'finish Svelte tutorial' },
     { done: false, text: 'build an app' },
     { done: false, text: 'world domination' },
