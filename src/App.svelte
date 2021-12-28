@@ -1,5 +1,5 @@
 <!-- Scrupt -->
-<script>
+<script lang="ts">
   let todos = [
     { done: false, text: 'finish Svelte tutorial' },
     { done: false, text: 'build an app' },
