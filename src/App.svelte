@@ -18,13 +18,18 @@
 </script>
 
 <!-- Markup -->
-<section class="w-full h-screen bg-indigo-400 flex flex-col justify-start px-5">
+<section
+  class="w-full h-screen bg-indigo-400 flex flex-col justify-start px-5 sm:pt-8 sm:items-center"
+>
   <h1 class="pt-20 pb-5 text-4xl text-yellow-200 font-bold">Todos</h1>
 
   {#each todos as todo}
-    <div class:done={todo.done} class="w-4/5 grid grid-cols-10 mb-3">
+    <div
+      class:done={todo.done}
+      class="w-4/5 grid grid-cols-10 mb-3 max-w-screen-sm"
+    >
       <input
-        class="self-center place-self-end mr-3 bg-yellow-50 w-1/2 h-1/2 border-4"
+        class="self-center place-self-end mr-3 bg-yellow-50 w-1/2 h-1/2 border-4 sm:place-self-center cursor-pointer"
         type="checkbox"
         bind:checked={todo.done}
       />
@@ -41,14 +46,14 @@
   </p>
 
   <button
-    class="bg-purple-300 hover:bg-purple-600 my-2 text-yellow-50 text-2xl h-10 border-purple-900 hover:text-yellow-200"
+    class="w-full bg-purple-300 hover:bg-purple-600 my-2 text-yellow-50 text-2xl h-10 border-purple-900 hover:text-yellow-200 max-w-screen-sm"
     on:click={add}
   >
     Add new
   </button>
 
   <button
-    class="bg-purple-300 hover:bg-purple-600 text-yellow-50 text-2xl h-10 border-purple-900 hover:text-yellow-200"
+    class="w-full bg-purple-300 hover:bg-purple-600 text-yellow-50 text-2xl h-10 border-purple-900 hover:text-yellow-200 max-w-screen-sm"
     on:click={clear}
   >
     Clear completed
