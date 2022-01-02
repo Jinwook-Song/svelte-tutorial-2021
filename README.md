@@ -1,109 +1,41 @@
-*Psst — looking for a more complete solution? Check out [SvelteKit](https://kit.svelte.dev), the official framework for building web applications of all sizes, with a beautiful development experience and flexible filesystem-based routing.*
+[Svelte](https://svelte.dev/)
 
-*Looking for a shareable component template instead? You can [use SvelteKit for that as well](https://kit.svelte.dev/docs#packaging) or the older [sveltejs/component-template](https://github.com/sveltejs/component-template)*
+[Svelte.js 완벽 가이드(Renew)](https://heropy.blog/2019/09/29/svelte/)
 
----
+- Core concept
+  - Write less code
+    - 높은 가독성 유지
+    - 개발 시간 단축
+    - 쉬운 리팩토링
+    - 쉬운 디버깅
+    - 더 작은 번들(SPA 최적화)
+    - 낮은 러닝 커브
+  - No virtual DOM
+    - No Diffing
+      - Diffing이란 Virtual DOM에서 서로 비교하여 차이가 있는 부분만 업데이트 하는 방식
+      - 비교를 위해서는 새로운 Virtual DOM을 생성해야하고, 그 결과를 실제 DOM에 갱신
+      - Svelte의 경우 갱신만 해주면 된다
+    - No Overhead
+      - 어떤 처리를 위해 들어가는, 간접적인 시간이나 메모리
+      - VIrtual DOM을 통한 추가적인 loss가 발생하지 않음
+    - 빠른 성능(퍼포먼스)
+      - 예시) Result of memory usage
+        - React: 30 ~ 110 MB
+        - Svelt: 15 ~ 30 MB
+  - Truly reactive
+    - Framework-less VanillaJS, Only use ‘devDependencies’
+      - Svelte가 어플리케이션을 VanillaJS로 컴파일하고 그 결과만 동작하기 때문에, Svelte는 브라우저(런타임)에서 동작하지 않는 컴파일러라고 할 수 있다.
+  - 명시석 설계(창의적 작업)
+- 단점 (2019. 4 기준)
+  낮은 성숙도(작은 커뮤니티)
+  CDN 미제공 (런타임에서 동작하지 않기 때문에)
+  IE 미지원
 
-# svelte app
-
-This is a project template for [Svelte](https://svelte.dev) apps. It lives at https://github.com/sveltejs/template.
-
-To create a new project based on this template using [degit](https://github.com/Rich-Harris/degit):
+# 시작하기
 
 ```bash
-npx degit sveltejs/template svelte-app
-cd svelte-app
-```
-
-*Note that you will need to have [Node.js](https://nodejs.org) installed.*
-
-
-## Get started
-
-Install the dependencies...
-
-```bash
-cd svelte-app
+npx degit sveltejs/template my-svelte-project
+cd my-svelte-project
 npm install
-```
-
-...then start [Rollup](https://rollupjs.org):
-
-```bash
 npm run dev
-```
-
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
-
-By default, the server will only respond to requests from localhost. To allow connections from other computers, edit the `sirv` commands in package.json to include the option `--host 0.0.0.0`.
-
-If you're using [Visual Studio Code](https://code.visualstudio.com/) we recommend installing the official extension [Svelte for VS Code](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode). If you are using other editors you may need to install a plugin in order to get syntax highlighting and intellisense.
-
-## Building and running in production mode
-
-To create an optimised version of the app:
-
-```bash
-npm run build
-```
-
-You can run the newly built app with `npm run start`. This uses [sirv](https://github.com/lukeed/sirv), which is included in your package.json's `dependencies` so that the app will work when you deploy to platforms like [Heroku](https://heroku.com).
-
-
-## Single-page app mode
-
-By default, sirv will only respond to requests that match files in `public`. This is to maximise compatibility with static fileservers, allowing you to deploy your app anywhere.
-
-If you're building a single-page app (SPA) with multiple routes, sirv needs to be able to respond to requests for *any* path. You can make it so by editing the `"start"` command in package.json:
-
-```js
-"start": "sirv public --single"
-```
-
-## Using TypeScript
-
-This template comes with a script to set up a TypeScript development environment, you can run it immediately after cloning the template with:
-
-```bash
-node scripts/setupTypeScript.js
-```
-
-Or remove the script via:
-
-```bash
-rm scripts/setupTypeScript.js
-```
-
-If you want to use `baseUrl` or `path` aliases within your `tsconfig`, you need to set up `@rollup/plugin-alias` to tell Rollup to resolve the aliases. For more info, see [this StackOverflow question](https://stackoverflow.com/questions/63427935/setup-tsconfig-path-in-svelte).
-
-## Deploying to the web
-
-### With [Vercel](https://vercel.com)
-
-Install `vercel` if you haven't already:
-
-```bash
-npm install -g vercel
-```
-
-Then, from within your project folder:
-
-```bash
-cd public
-vercel deploy --name my-project
-```
-
-### With [surge](https://surge.sh/)
-
-Install `surge` if you haven't already:
-
-```bash
-npm install -g surge
-```
-
-Then, from within your project folder:
-
-```bash
-npm run build
-surge public my-project.surge.sh
 ```
