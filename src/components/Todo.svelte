@@ -1,5 +1,8 @@
 <script lang="ts">
   import type { ITodo } from '../types/ITodo';
+  import type { Writable } from 'svelte/store';
+
+  export let todos: Writable<ITodo[]>;
   export let todo: ITodo;
 
   let isEdit = false;
@@ -16,7 +19,9 @@
     todo.title = title;
     offEdit();
   }
-  function deleteTodo() {}
+  function deleteTodo() {
+    $todos = $todos.filter((t) => t.id !== todo.id);
+  }
 </script>
 
 {#if isEdit === true}

@@ -1,19 +1,24 @@
 <script lang="ts">
   import type { ITodo } from './types/ITodo';
+  import { writable } from 'svelte/store';
   import Todo from './components/Todo.svelte';
 
   let title = '';
-  let todos: ITodo[] = [];
+  // todos 는 단순 배열이 아닌 store 객체가 됩니다.
+  let todos = writable<ITodo[]>([]);
 
   function createTodo() {
-    if (title) {
-      todos.push({
-        id: Date.now(),
-        title,
-      });
-      todos = todos; // 할당을 통해 반응성을 유도
-      title = ''; // input 값 비우기
+    // input 값이 없는 경우 return
+    if (!title.trim()) {
+      title = '';
+      return;
     }
+    $todos.push({
+      id: Date.now(),
+      title,
+    });
+    $todos = $todos; // 할당을 통해 반응성을 유도합니다.
+    title = ''; // input 값 flush
   }
 </script>
 
@@ -24,6 +29,6 @@
 />
 <button on:click={createTodo}>Create Todo</button>
 
-{#each todos as todo}
-  <Todo {todo} />
+{#each $todos as todo}
+  <Todo {todos} {todo} />
 {/each}

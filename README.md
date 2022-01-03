@@ -39,3 +39,166 @@ cd my-svelte-project
 npm install
 npm run dev
 ```
+
+- 타입스크립트 적용
+  `node ./scripts/setupTypeScript.js` 위 명령어를 통해 타입스크립트를 적용할 수 있습니다.
+  setupTypeScript는 템플릿을 다운 받을때 타입스크립트 적용을 위한 기본 파일입니다.
+
+# Todo demo with typescript
+
+- Tree 구조
+  ```jsx
+  ├── App.svelte
+  ├── components
+  │   └── Todo.svelte
+  ├── global.d.ts
+  ├── main.ts
+  └── types
+      └── ITodo.ts
+  ```
+
+## Create Todos
+
+- App.svelte
+  ```jsx
+  <script lang="ts">
+    import type { ITodo } from './types/ITodo';
+    import Todo from './components/Todo.svelte';
+
+    let title = '';
+    let todos: ITodo[] = [];
+
+    function createTodo() {
+      todos.push({
+        id: Date.now(),
+        title,
+      });
+      todos = todos; // 할당을 통해 반응성을 유도
+      title = ''; // input 값 비우기
+    }
+    console.log(todos);
+  </script>
+
+  <input
+    type="text"
+    bind:value={title}
+    on:keydown={(e) => e.key === 'Enter' && createTodo()}
+  />
+  <button on:click={createTodo}>Create Todo</button>
+
+  {#each todos as todo}
+    <Todo {todo} />
+  {/each}
+  ```
+- Todo.svelte
+  ```jsx
+  <script lang="ts">
+    import type { ITodo } from '../types/ITodo';
+    export let todo: ITodo;
+  </script>
+
+  <div>
+    {todo.title}
+  </div>
+  ```
+- Types
+  ```jsx
+  export interface ITodo {
+    id: number;
+    title: string;
+  }
+  ```
+
+## Update & Delte Todos
+
+todos 배열은 App.svelte에 정의되어 있습니다.
+
+따라서 todos를 삭제하는 경우, 반응성을 유도하기 위해 props를 건내줄 때 bind를 사용할 수 있습니다.
+
+본 예제에서는 bind대신 store를 활용하였습니다.
+
+- App.svelte
+  ```jsx
+  <script lang="ts">
+    import type { ITodo } from './types/ITodo';
+    import { writable } from 'svelte/store';
+    import Todo from './components/Todo.svelte';
+
+    let title = '';
+    // todos 는 단순 배열이 아닌 store 객체가 됩니다.
+    let todos = writable<ITodo[]>([]);
+
+    function createTodo() {
+      // input 값이 없는 경우 return
+      if (!title.trim()) {
+        title = '';
+        return;
+      }
+      $todos.push({
+        id: Date.now(),
+        title,
+      });
+      $todos = $todos; // 할당을 통해 반응성을 유도합니다.
+      title = ''; // input 값 flush
+    }
+  </script>
+
+  <input
+    type="text"
+    bind:value={title}
+    on:keydown={(e) => e.key === 'Enter' && createTodo()}
+  />
+  <button on:click={createTodo}>Create Todo</button>
+
+  {#each $todos as todo}
+    <Todo {todos} {todo} />
+  {/each}
+  ```
+- Todo.svelte
+  ```jsx
+  <script lang="ts">
+    import type { ITodo } from '../types/ITodo';
+    import type { Writable } from 'svelte/store';
+
+    export let todos: Writable<ITodo[]>;
+    export let todo: ITodo;
+
+    let isEdit = false;
+    let title = '';
+
+    function onEdit() {
+      isEdit = true;
+      title = todo.title;
+    }
+    function offEdit() {
+      isEdit = false;
+    }
+    function updateTodo() {
+      todo.title = title;
+      offEdit();
+    }
+    function deleteTodo() {
+      $todos = $todos.filter((t) => t.id !== todo.id);
+    }
+  </script>
+
+  {#if isEdit === true}
+    <div>
+      <input
+        type="text"
+        bind:value={title}
+        on:keydown={(e) => {
+          e.key === 'Enter' && updateTodo();
+        }}
+      />
+      <button on:click={updateTodo}>OK</button>
+      <button on:click={offEdit}>Cancel</button>
+    </div>
+  {:else if isEdit === false}
+    <div>
+      {todo.title}
+      <button on:click={onEdit}>Edit</button>
+      <button on:click={deleteTodo}>Delete</button>
+    </div>
+  {/if}
+  ```
