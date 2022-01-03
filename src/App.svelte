@@ -6,14 +6,15 @@
   let todos: ITodo[] = [];
 
   function createTodo() {
-    todos.push({
-      id: Date.now(),
-      title,
-    });
-    todos = todos; // 할당을 통해 반응성을 유도
-    title = ''; // input 값 비우기
+    if (title) {
+      todos.push({
+        id: Date.now(),
+        title,
+      });
+      todos = todos; // 할당을 통해 반응성을 유도
+      title = ''; // input 값 비우기
+    }
   }
-  console.log(todos);
 </script>
 
 <input
