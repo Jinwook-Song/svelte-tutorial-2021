@@ -20,7 +20,7 @@
     offEdit();
   }
   function deleteTodo() {
-    $todos = $todos.filter((t) => t.id !== todo.id);
+    $todos = $todos.filter((todo) => todo.id !== todo.id);
   }
 </script>
 
