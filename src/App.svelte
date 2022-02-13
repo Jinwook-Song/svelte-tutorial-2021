@@ -1,16 +1,23 @@
 <script lang="ts">
-  let name = 'jinwook';
-  let array = ['a', 'b', 'c'];
+  loop1: for (let i = 1; i < 4; i++) {
+    loop2: for (let j = 1; j < 4; j++) {
+      if (i === 2) {
+        break loop1;
+      }
+      console.log(`${i}-${j}`);
+    }
+    console.log('-------');
+  }
 
-  function assign() {
-    name = 'nico';
-    // array.push('d');
-    // array = array;
-    array = [...array, 'd'];
+  jw: {
+    console.log('a');
+    break jw;
+    console.log('b');
+  }
+
+  // Svelte 반응성 구문
+  let count = 0;
+  $: {
+    console.log(count);
   }
 </script>
-
-<button on:click={assign}>Assign</button>
-
-<h2>name: {name}</h2>
-<h2>array: {array}</h2>
