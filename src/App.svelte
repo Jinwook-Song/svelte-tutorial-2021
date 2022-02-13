@@ -1,13 +1,16 @@
 <script lang="ts">
-  let count = 0;
-  let double = 0;
+  let name = 'jinwook';
+  let array = ['a', 'b', 'c'];
 
-  function assgin() {
-    count++;
+  function assign() {
+    name = 'nico';
+    // array.push('d');
+    // array = array;
+    array = [...array, 'd'];
   }
 </script>
 
-{@debug count}
-<button on:click={assgin}>Assign</button>
-<h2>{count}</h2>
-<h2>{double}</h2>
+<button on:click={assign}>Assign</button>
+
+<h2>name: {name}</h2>
+<h2>array: {array}</h2>
