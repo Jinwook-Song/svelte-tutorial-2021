@@ -1,29 +1,69 @@
 <script lang="ts">
-  import { tick } from 'svelte';
-
   let count = 0;
-  let double = 0;
 
-  // Label 구문
-  // 반응성 구문 내에 반응성을 갖는 변수 명시
+  // 선언
+  $: double = count * 2;
+
+  // 블록
   $: {
-    double = count * 2;
-    console.log('double!', double);
-  }
-  $: double2 = count * 2;
-
-  /* 'count 값 변경된 후 대기 로직이 처리되고,
-   화면이 갱신되어야 반응성 구문($:)이 실행된다.' */
-  async function assgin() {
-    count++;
-    console.time('tiemr');
-    await tick(); // 반응성을 기다림
-    console.timeEnd('tiemr');
+    console.log(count);
     console.log(double);
+  }
+
+  // 함수 실행
+  $: count, log();
+
+  // 즉시 실행 함수 (IIFE)
+  $: count,
+    (() => {
+      console.log('즉시 실행');
+    })();
+
+  // 조건문 (if)
+  $: if (count > 0) {
+    console.log('if', double);
+  }
+
+  // 반복문 (for)
+  $: for (let i = 0; i < 3; i++) {
+    count;
+    console.log('for', i);
+  }
+
+  // 조건문 (switch)
+  $: switch (count) {
+    case 1:
+      console.log('switch: 1');
+      break;
+    case 2:
+      console.log('switch: 2');
+      break;
+    default:
+      console.log('switch: default');
+  }
+
+  // 유효범위
+  $: {
+    function scope1() {
+      console.log('scope1');
+      function scope2() {
+        console.log('scope2');
+        function scope3() {
+          console.log('scope3', count);
+        }
+        scope3();
+      }
+      scope2();
+    }
+    scope1();
+  }
+
+  function log() {
+    console.log('fn: log');
+  }
+  function assing() {
+    count++;
   }
 </script>
 
-<button on:click={assgin}>Assing</button>
-<h2>{count}</h2>
-<h2>{double}</h2>
-<h2>{double2}</h2>
+<button on:click={assing}>Assing!</button>
