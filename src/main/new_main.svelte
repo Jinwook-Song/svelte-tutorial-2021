@@ -180,18 +180,35 @@
   }
   #menu-video-container,
   #lectures-video-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    @media screen and (max-width: 1990px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+    @media screen and (max-width: 1490px) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    @media screen and (max-width: 990px) {
+      grid-template-columns: 1fr 1fr;
+    }
+    @media screen and (max-width: 490px) {
+      grid-template-columns: 1fr;
+    }
+    gap: 32px 8px;
+    width: 100%;
     & > div {
+      min-width: 250px;
+      max-width: 500px;
       display: flex;
       flex-direction: column;
       position: relative;
       & > div:first-child {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+
         // video
         cursor: pointer;
-        width: 342px;
-        height: 192.4px;
+        // height: 192.4px;
         background-color: #ae9db4;
         border-radius: 12px;
       }
