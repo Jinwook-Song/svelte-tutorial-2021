@@ -1,16 +1,16 @@
 <script>
-  let counts = "1,2".split(",");
-  let spares = "1,2,3,4,5,6,7,8,9".split(",");
+  let counts = '1,2'.split(',');
+  let spares = '1,2,3,4,5,6,7,8,9'.split(',');
 </script>
 
 {#if true}
   <div id="modal-wrapper">
     <header id="dongle-modal-header">
-      <img src={"images/dongle_header.svg"} alt="dongle-header" />
+      <img src={'images/dongle_header.svg'} alt="dongle-header" />
     </header>
     <section id="dongle-modal-body">
       <div id="dongle-logo">
-        <img src={"images/img_donglemanager.svg"} alt="dongle-manager" />
+        <img src={'images/img_donglemanager.svg'} alt="dongle-manager" />
       </div>
       <div id="dongle-announcement">
         <span>Please connect the Class dongles you have.</span>
@@ -18,7 +18,7 @@
       <div id="dongle-connected-status-image">
         {#each spares as spare}
           {#if counts.length >= spare}
-            <img src={"images/dongle_checked.svg"} alt="dongle-checked" />
+            <img src={'images/dongle_checked.svg'} alt="dongle-checked" />
           {:else}
             <div id="dongle-spares" />
           {/if}
@@ -123,7 +123,7 @@
     cursor: pointer;
   }
   #dongle-btn #done-btn::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 50%;
