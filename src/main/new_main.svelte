@@ -1,9 +1,23 @@
 <script>
   let isEdit = true;
-  const videos = [...Array(5)].map((v, i) => i + 1);
+  let videourl, newVideo, newVideoSrc;
+  const file = 'videos/SampleVideo_1280x720_10mb.avi';
+  const videos = [
+    '소방시연용_Remote_mov_201103_lite',
+    'CPR add-on ki t Class _ 상황별 교육을 위한 새로운 솔루션',
+    'cprCUBE_pro_mov_201103_01_kor',
+    'IMLAB 소개영상 _50s',
+    'UAOK_guide_mov_kor_200403',
+    '이중의교수님의 cprCUBE 리뷰 - 짧은버전',
+  ];
 
-  function handleClick() {
+  function togleEdit() {
     isEdit = !isEdit;
+  }
+  function handleFileSelected(event) {
+    const video = event.target.files[0];
+    videourl = URL.createObjectURL(video);
+    console.log(videourl);
   }
 </script>
 
@@ -26,22 +40,22 @@
         </div>
         <div id="menu-video-container">
           <div class="menu-video">
-            <div>video</div>
-            <div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>video</div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
               <img src="images/i_feedback_2t.svg" alt="logo-class" />
               <span>Feedback mode</span>
             </div>
           </div>
           <div class="menu-video">
-            <div>video</div>
-            <div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>video</div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
               <img src="images/i_mission_L.svg" alt="logo-class" />
               <span>Mission Mode</span>
             </div>
           </div>
           <div class="menu-video">
-            <div>video</div>
-            <div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>video</div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
               <img src="images/i_result_2t.svg" alt="logo-class" />
               <span>Results</span>
             </div>
@@ -54,15 +68,15 @@
         <span>Lectures</span>
         <div>
           {#if isEdit}
-            <div on:click={handleClick} id="edit-out-button1">
+            <div on:click={togleEdit} id="edit-out-button1">
               <span>Cancel</span>
             </div>
-            <div on:click={handleClick} id="edit-out-button2">
+            <div on:click={togleEdit} id="edit-out-button2">
               <img src="images/i_edit_white.svg" alt="logo-class" />
               <span>Done</span>
             </div>
           {:else}
-            <div on:click={handleClick} id="edit-in-button">
+            <div on:click={togleEdit} id="edit-in-button">
               <img src="images/i_edit_s.svg" alt="logo-class" />
               <span>Edit</span>
             </div>
@@ -72,18 +86,41 @@
       <div id="lectures-video-container">
         {#each videos as video}
           <div class="lectures-video">
-            <div>video</div>
-            <span>Call 911</span>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
+              <!-- svelte-ignore a11y-media-has-caption -->
+              <video controls src={`videos/${video}.mp4`} />
+            </div>
+            <span>{video.slice(0, 28)}</span>
             {#if isEdit}
               <button><img src="images/Icon button.svg" alt="" /></button>
             {/if}
           </div>
         {/each}
+        {#if videourl}
+          <div class="lectures-video">
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
+              <!-- svelte-ignore a11y-media-has-caption -->
+              <video autoplay controls src={videourl} />
+            </div>
+            <span>test</span>
+            {#if isEdit}
+              <button><img src="images/Icon button.svg" alt="" /></button>
+            {/if}
+          </div>
+        {/if}
 
         {#if isEdit}
           <div class="lectures-video add-video">
             <div />
-            <img src="images/Frame 1771.svg" alt="" />
+            <label for="new-video">
+              <img src="images/Frame 1771.svg" alt="" />
+              <input
+                id="new-video"
+                type="file"
+                accept="video/*"
+                on:change={handleFileSelected}
+              />
+            </label>
           </div>
         {/if}
       </div>
@@ -95,7 +132,7 @@
   article {
     background-color: rgb(224, 245, 184);
     padding: 20px 24px;
-    height: 100vh;
+    min-height: 100vh;
   }
   header {
     display: flex;
@@ -205,12 +242,13 @@
       & > div:first-child {
         width: 100%;
         aspect-ratio: 16 / 9;
+        border: solid 2px #666666;
 
         // video
-        cursor: pointer;
-        // height: 192.4px;
-        background-color: #ae9db4;
         border-radius: 12px;
+      }
+      .main-page {
+        cursor: pointer;
       }
     }
   }
@@ -226,6 +264,8 @@
       bottom: 0;
       background-color: white;
       border-radius: 0 0 12px 12px;
+      border: solid 2px #666666;
+
       img {
         width: 45px;
         height: 45px;
@@ -253,9 +293,13 @@
   }
   .add-video {
     & > div {
-      border: solid 2px black;
+      border: solid 2px #666666;
+    }
+    input {
+      display: none;
     }
     img {
+      cursor: pointer;
       width: 45px;
       height: 45px;
       position: absolute;
