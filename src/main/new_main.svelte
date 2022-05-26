@@ -1,7 +1,6 @@
 <script>
   let isEdit = true;
-  let videourl, newVideo, newVideoSrc;
-  const file = 'videos/SampleVideo_1280x720_10mb.avi';
+  let videoUrl, videoName;
   const videos = [
     '소방시연용_Remote_mov_201103_lite',
     'CPR add-on ki t Class _ 상황별 교육을 위한 새로운 솔루션',
@@ -14,14 +13,29 @@
   function togleEdit() {
     isEdit = !isEdit;
   }
+  function download(data, filename = './test') {
+    console.log('test');
+    console.log(window.navigator);
+
+    if (window.navigator.msSaveBlob) {
+      console.log('te12st');
+      console.log(data);
+      window.navigator.msSaveBlob(data, filename);
+    }
+  }
+
   function handleFileSelected(event) {
     const video = event.target.files[0];
-    videourl = URL.createObjectURL(video);
-    console.log(videourl);
+    videoUrl = URL.createObjectURL(video);
+    videoName = video.name;
   }
 </script>
 
 <article>
+  {#if videoUrl}
+    <!-- svelte-ignore a11y-missing-content -->
+    <a href={videoUrl} />
+  {/if}
   {#if !isEdit}
     <header>
       <div>
@@ -40,21 +54,29 @@
         </div>
         <div id="menu-video-container">
           <div class="menu-video">
-            <div class={isEdit ? 'edit-page' : 'main-page'}>video</div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
+              <img src="images/feedback_mode.png" alt="" />
+            </div>
             <div class={isEdit ? 'edit-page' : 'main-page'}>
               <img src="images/i_feedback_2t.svg" alt="logo-class" />
               <span>Feedback mode</span>
             </div>
           </div>
+
           <div class="menu-video">
-            <div class={isEdit ? 'edit-page' : 'main-page'}>video</div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
+              <img src="images/mission_mode.jpg" alt="" />
+            </div>
             <div class={isEdit ? 'edit-page' : 'main-page'}>
               <img src="images/i_mission_L.svg" alt="logo-class" />
               <span>Mission Mode</span>
             </div>
           </div>
+
           <div class="menu-video">
-            <div class={isEdit ? 'edit-page' : 'main-page'}>video</div>
+            <div class={isEdit ? 'edit-page' : 'main-page'}>
+              <img src="images/results_mode.png" alt="" />
+            </div>
             <div class={isEdit ? 'edit-page' : 'main-page'}>
               <img src="images/i_result_2t.svg" alt="logo-class" />
               <span>Results</span>
@@ -63,7 +85,7 @@
         </div>
       </section>
     {/if}
-    <section id="lectures-section">
+    <section id="-lecturessection">
       <div id="lectures-label">
         <span>Lectures</span>
         <div>
@@ -90,17 +112,17 @@
               <!-- svelte-ignore a11y-media-has-caption -->
               <video controls src={`videos/${video}.mp4`} />
             </div>
-            <span>{video.slice(0, 28)}</span>
+            <span>{video}</span>
             {#if isEdit}
               <button><img src="images/Icon button.svg" alt="" /></button>
             {/if}
           </div>
         {/each}
-        {#if videourl}
+        {#if videoUrl}
           <div class="lectures-video">
             <div class={isEdit ? 'edit-page' : 'main-page'}>
               <!-- svelte-ignore a11y-media-has-caption -->
-              <video autoplay controls src={videourl} />
+              <video autoplay controls src={videoUrl} />
             </div>
             <span>test</span>
             {#if isEdit}
@@ -233,26 +255,28 @@
     }
     gap: 32px 8px;
     width: 100%;
-    & > div {
-      min-width: 250px;
-      max-width: 500px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      & > div:first-child {
+  }
+  .menu-video {
+    min-width: 250px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+    & > div:first-child {
+      // video
+      border-radius: 12px;
+      img {
         width: 100%;
         aspect-ratio: 16 / 9;
-        border: solid 2px #666666;
-
-        // video
-        border-radius: 12px;
-      }
-      .main-page {
-        cursor: pointer;
       }
     }
-  }
-  #menu-video-container > div {
+    .main-page {
+      cursor: pointer;
+    }
     & > div:last-child {
       display: flex;
       justify-content: center;
@@ -264,7 +288,6 @@
       bottom: 0;
       background-color: white;
       border-radius: 0 0 12px 12px;
-      border: solid 2px #666666;
 
       img {
         width: 45px;
@@ -275,12 +298,30 @@
       }
     }
   }
-
-  #lectures-video-container > div {
+  .lectures-video {
+    min-width: 250px;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    & > div:first-child {
+      border-radius: 16px;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      width: 100%;
+      // video
+      border-radius: 12px;
+    }
+    .main-page {
+      cursor: pointer;
+    }
     span {
       font-size: 19px;
       color: #585858;
       margin-left: 8px;
+      white-space: nowrap;
     }
     button {
       position: absolute;
@@ -289,11 +330,14 @@
       width: 28px;
       height: 28px;
       z-index: 5;
+      &:hover {
+        transform: scale(1.05);
+      }
     }
   }
   .add-video {
     & > div {
-      border: solid 2px #666666;
+      border: solid 1px #b3b3b3;
     }
     input {
       display: none;
@@ -303,9 +347,9 @@
       width: 45px;
       height: 45px;
       position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -80%);
+      right: 0;
+      top: 0;
+      transform: translate(-15px, 15px);
     }
   }
 </style>
